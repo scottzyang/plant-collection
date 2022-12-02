@@ -40,10 +40,10 @@ def create():
         # TODO: Get the new plant's name, variety, photo, & date planted, and 
         # store them in the object below.
         new_plant = {
-            'name': '',
-            'variety': '',
-            'photo_url': '',
-            'date_planted': ''
+            'name': request.form['plant_name'],
+            'variety': request.form['variety'],
+            'photo_url': request.form['photo'],
+            'date_planted': request.form['date_planted']
         }
         # TODO: Make an `insert_one` database call to insert the object into the
         # database's `plants` collection, and get its inserted id. Pass the 
