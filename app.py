@@ -91,7 +91,7 @@ def harvest(plant_id):
 
     # TODO: Make an `insert_one` database call to insert the object into the 
     # `harvests` collection of the database.
-    added_harvest = mongo.db.harvests.insert_one(new_harvest)
+    mongo.db.harvests.insert_one(new_harvest)
 
     return redirect(url_for('detail', plant_id=plant_id))
 
@@ -101,13 +101,20 @@ def edit(plant_id):
     if request.method == 'POST':
         # TODO: Make an `update_one` database call to update the plant with the
         # given id. Make sure to put the updated fields in the `$set` object.
-
+        search_param = { "_id" : plant_id }
+        change_param = { "$set": { 
+            'plant_name': request.form['plant_name'],
+            'variety': request.form['variety'],
+            'url': request.form['photo'],
+            'date_planted': request.form['date_planted']
+         } }
+        mongo.db.users.update_one(search_param, change_param)
         
         return redirect(url_for('detail', plant_id=plant_id))
     else:
         # TODO: Make a `find_one` database call to get the plant object with the
         # passed-in _id.
-        plant_to_show = ''
+        plant_to_show = mongo.db.plant.find_one({'_id' : plant_id})
 
         context = {
             'plant': plant_to_show
